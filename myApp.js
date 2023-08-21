@@ -18,8 +18,8 @@ const personSchema = new mongoose.Schema({
 
 let Person = mongoose.model("Person", personSchema);
 
-const createAndSavePerson = (done) => {
-  let personInstance = new Person({name:"Sally",age:33,favoriteFoods: ["pizza", "chicken", "fosters"]})
+const createAndSavePerson = (personObj, done) => {
+  let personInstance = new Person(personObj);
   personInstance.save((err, data) => {
     if(err) {
       return console.error(err);
@@ -30,11 +30,23 @@ const createAndSavePerson = (done) => {
 //  let callbackFunc = (someArg, someData) => {
 //   console.log(someData);
 // };
-// createAndSavePerson(callbackFunc);
+// createAndSavePerson( { name:"Chris", age:28, favoriteFoods:['chicken','pizza','sushi'] }, callbackFunc );
 
 const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+  arrayOfPeople.forEach(person => {
+    createAndSavePerson(person, done);
+  });
 };
+// let callbackFunc = (nullArg, someData) => {
+//   console.log(someData);
+// };
+// let people = [
+//   {name:"Lorde",age:32,favoriteFoods:['shrimp','spaghetti']},
+//   {name:"Liz",age:22,favoriteFoods:['hamburger','buffalo wings']},
+//   {name:"Jorge",age:21,favoriteFoods:['pizza','fries']},
+//   {name:"Nathan",age:26,favoriteFoods:['double double','sushi']}
+// ];
+// createManyPeople(people, callbackFunc);
 
 const findPeopleByName = (personName, done) => {
   done(null /*, data*/);
